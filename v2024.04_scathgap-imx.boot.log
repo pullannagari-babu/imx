@@ -1,0 +1,154 @@
+SCARTHGAP
+
+$ /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/temp$ cat log.do_compile
+DEBUG: Executing shell function do_compile
+NOTE: 8MQ/8MM/8MN/8MP boot binary build
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_1d_imem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/git/iMX8M
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_1d_dmem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/git/iMX8M
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_2d_imem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/git/iMX8M
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_2d_dmem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/git/iMX8M
+NOTE: building iMX8MM - REV=A0  flash_evk
+Compiling mkimage_imx8
+PLAT=imx8mm HDMI=no
+Compiling mkimage_imx8
+gcc -O2 -Wall -std=c99 -I /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/usr/include -L /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/usr/lib ../iMX8M/mkimage_imx8.c -o mkimage_imx8 -L/tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/usr/lib                         -L/tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/lib                         -Wl,-rpath,/tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/tmp/work/imx8mmevk-poky-linux/imx-boot/1.0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -pthread -lz
+24678+0 records in
+24678+0 records out
+98712 bytes (99 kB, 96 KiB) copied, 0.0817388 s, 1.2 MB/s
+./../scripts/dtb_check.sh imx8mm-evk.dtb evk.dtb imx8mm-evk.dtb
+Use u-boot DTB: imx8mm-evk.dtb
+./../scripts/pad_image.sh tee.bin
+Padding tee.bin to 599920 bytes
+./../scripts/pad_image.sh bl31.bin
+./../scripts/pad_image.sh u-boot-nodtb.bin evk.dtb
+Padding evk.dtb to 59016 bytes
+BL32=tee.bin DEK_BLOB_LOAD_ADDR=0x40400000 TEE_LOAD_ADDR=0xbe000000 ATF_LOAD_ADDR=0x00920000 ../iMX8M/mkimage_fit_atf.sh evk.dtb  > u-boot.its
+bl31.bin size:
+44096
+Building with TEE support, make sure bl31.bin is compiled with spd. If you do not want tee, please delete tee.bin
+tee.bin size:
+599920
+u-boot-nodtb.bin size:
+1054200
+evk.dtb size:
+59016
+mkimage -E -p 0x5000 -f u-boot.its u-boot.itb
+FIT description: Configuration to load ATF before U-Boot
+Created:         Tue May 28 16:59:24 2024
+ Image 0 (uboot-1)
+  Description:  U-Boot (64-bit)
+  Created:      Tue May 28 16:59:24 2024
+  Type:         Standalone Program
+  Compression:  uncompressed
+  Data Size:    1054200 Bytes = 1029.49 KiB = 1.01 MiB
+  Architecture: AArch64
+  Load Address: 0x40200000
+  Entry Point:  unavailable
+ Image 1 (fdt-1)
+  Description:  evk
+  Created:      Tue May 28 16:59:24 2024
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    59016 Bytes = 57.63 KiB = 0.06 MiB
+  Architecture: Unknown Architecture
+ Image 2 (atf-1)
+  Description:  ARM Trusted Firmware
+  Created:      Tue May 28 16:59:24 2024
+  Type:         Firmware
+  Compression:  uncompressed
+  Data Size:    44096 Bytes = 43.06 KiB = 0.04 MiB
+  Architecture: AArch64
+  OS:           Unknown OS
+  Load Address: 0x00920000
+ Image 3 (tee-1)
+  Description:  TEE firmware
+  Created:      Tue May 28 16:59:24 2024
+  Type:         Firmware
+  Compression:  uncompressed
+  Data Size:    599920 Bytes = 585.86 KiB = 0.57 MiB
+  Architecture: AArch64
+  OS:           Unknown OS
+  Load Address: 0xbe000000
+ Default Configuration: 'config-1'
+ Configuration 0 (config-1)
+  Description:  evk
+  Kernel:       unavailable
+  Firmware:     uboot-1
+  FDT:          fdt-1
+  Loadables:    atf-1
+                tee-1
+./mkimage_imx8 -version v1 -fit -loader u-boot-spl-ddr.bin 0x7E1000 -second_loader u-boot.itb 0x40200000 0x60000 -out flash.bin
+Platform:       i.MX8M (mScale)
+ROM VERSION:    v1
+Using FIT image
+LOADER IMAGE:   u-boot-spl-ddr.bin start addr: 0x007e1000
+SECOND LOADER IMAGE:    u-boot.itb start addr: 0x40200000 offset: 0x00060000
+Output:         flash.bin
+fit_size: 1064
+1+0 records in
+1+0 records out
+1064 bytes (1.1 kB, 1.0 KiB) copied, 0.000194974 s, 5.5 MB/s
+FIT hash: 99443bd5f32ef8f98c2cc4d9e3e1caa4457981a833b18f86c62bd83cdf897d
+========= IVT HEADER [HDMI FW] =========
+header.tag:             0x0
+header.length:          0x0
+header.version:         0x0
+entry:                  0x0
+reserved1:              0x0
+dcd_ptr:                0x0
+boot_data_ptr:          0x0
+self:                   0x0
+csf:                    0x0
+reserved2:              0x0
+boot_data.start:        0x0
+boot_data.size:         0x0
+boot_data.plugin:       0x0
+========= IVT HEADER [PLUGIN] =========
+header.tag:             0x0
+header.length:          0x0
+header.version:         0x0
+entry:                  0x0
+reserved1:              0x0
+dcd_ptr:                0x0
+boot_data_ptr:          0x0
+self:                   0x0
+csf:                    0x0
+reserved2:              0x0
+boot_data.start:        0x0
+boot_data.size:         0x0
+boot_data.plugin:       0x0
+========= IVT HEADER [LOADER IMAGE] =========
+header.tag:             0xd1
+header.length:          0x2000
+header.version:         0x41
+entry:                  0x7e1000
+reserved1:              0x0
+dcd_ptr:                0x0
+boot_data_ptr:          0x7e0fe0
+self:                   0x7e0fc0
+csf:                    0x8111c0
+reserved2:              0x0
+boot_data.start:        0x7e0bc0
+boot_data.size:         0x32660
+boot_data.plugin:       0x0
+========= OFFSET dump =========
+Loader IMAGE:
+ header_image_off       0x0
+ dcd_off                0x0
+ image_off              0x40
+ csf_off                0x30200
+ spl hab block:         0x7e0fc0 0x0 0x30200
+
+Second Loader IMAGE:
+ sld_header_off         0x57c00
+ sld_csf_off            0x58c20
+ sld hab block:         0x401fadc0 0x57c00 0x1020
+ fit-fdt csf_off        0x5ac20
+ fit-fdt hab block:     0x401fadc0 0x57c00 0x3020
+SPL CSF block:
+        Blocks =        0x7e0fc0 0x0 0x30200 "flash.bin"
+SLD CSF block:
+        Blocks =        0x401fadc0 0x57c00 0x1020 "flash.bin",\
+SLD FIT-FDT CSF block:
+        Blocks =        0x401fadc0 0x57c00 0x3020 "flash.bin"
+DEBUG: Shell function do_compile finished
