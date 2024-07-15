@@ -1,0 +1,134 @@
+ZEUS
+
+$ /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0-r0/temp$ cat log.do_compile
+DEBUG: Executing shell function do_compile
+NOTE: 8MQ/8MM boot binary build
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_1d_imem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmievk-poky-linux/imx-boot/1.0-r0/git/iMX8M
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_1d_dmem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0-r0/git/iMX8M
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_2d_imem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0-r0/git/iMX8M
+NOTE: Copy ddr_firmware: lpddr4_pmu_train_2d_dmem.bin from /tmp/deploy/images/imx8mmevk -> /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0-r0/git/iMX8M
+NOTE: Using standard mkimage from u-boot-tools for FIT image builds. The standard mkimage is compatible for this use, and using it saves us from having to maintain a custom recipe.
+NOTE: building iMX8MM -  flash_evk
+Compiling mkimage_imx8
+PLAT=imx8mm HDMI=no
+Compiling mkimage_imx8
+gcc -O2 -Wall -std=c99 -I /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0-r0/recipe-sysroot-native/usr/include -L /tmp/work/imx8mmevk-poky-linux/imx-boot/1.0-r0/recipe-sysroot-native/usr/lib mkimage_imx8.c -o mkimage_imx8 -lz
+25432+0 records in
+25432+0 records out
+101728 bytes (102 kB, 99 KiB) copied, 0.0748077 s, 1.4 MB/s
+./../scripts/dtb_check.sh imx8mm-evk.dtb evk.dtb
+Use u-boot DTB: imx8mm-evk.dtb
+./../scripts/pad_image.sh tee.bin
+Pad file tee.bin NOT found
+./../scripts/pad_image.sh bl31.bin
+bl31.bin is padded to 41440
+./../scripts/pad_image.sh u-boot-nodtb.bin evk.dtb
+u-boot-nodtb.bin + evk.dtb are padded to 753872
+DEK_BLOB_LOAD_ADDR=0x40400000 TEE_LOAD_ADDR=0xbe000000 ATF_LOAD_ADDR=0x00920000 ./mkimage_fit_atf.sh evk.dtb > u-boot.its
+bl31.bin size:
+41440
+u-boot-nodtb.bin size:
+722024
+evk.dtb size:
+31848
+./mkimage_uboot -E -p 0x3000 -f u-boot.its u-boot.itb
+u-boot.its:7.11-14.5: Warning (unit_address_vs_reg): /images/uboot@1: node has a unit name, but no reg property
+u-boot.its:15.9-20.5: Warning (unit_address_vs_reg): /images/fdt@1: node has a unit name, but no reg property
+u-boot.its:21.9-29.5: Warning (unit_address_vs_reg): /images/atf@1: node has a unit name, but no reg property
+u-boot.its:34.12-39.5: Warning (unit_address_vs_reg): /configurations/config@1: node has a unit name, but no reg property
+FIT description: Configuration to load ATF before U-Boot
+Created:         Wed May  8 10:05:31 2024
+ Image 0 (uboot@1)
+  Description:  U-Boot (64-bit)
+  Created:      Wed May  8 10:05:31 2024
+  Type:         Standalone Program
+  Compression:  uncompressed
+  Data Size:    722024 Bytes = 705.10 KiB = 0.69 MiB
+  Architecture: AArch64
+  Load Address: 0x40200000
+  Entry Point:  unavailable
+ Image 1 (fdt@1)
+  Description:  evk
+  Created:      Wed May  8 10:05:31 2024
+  Type:         Flat Device Tree
+  Compression:  uncompressed
+  Data Size:    31848 Bytes = 31.10 KiB = 0.03 MiB
+  Architecture: Unknown Architecture
+ Image 2 (atf@1)
+  Description:  ARM Trusted Firmware
+  Created:      Wed May  8 10:05:31 2024
+  Type:         Firmware
+  Compression:  uncompressed
+  Data Size:    41440 Bytes = 40.47 KiB = 0.04 MiB
+  Architecture: AArch64
+  OS:           Unknown OS
+  Load Address: 0x00920000
+ Default Configuration: 'config@1'
+ Configuration 0 (config@1)
+  Description:  evk
+  Kernel:       unavailable
+  Firmware:     uboot@1
+  FDT:          fdt@1
+  Loadables:    atf@1
+./mkimage_imx8 -version v1 -fit -loader u-boot-spl-ddr.bin 0x7E1000 -second_loader u-boot.itb 0x40200000 0x60000 -out flash.bin
+Platform:       i.MX8M (mScale)
+ROM VERSION:    v1
+Using FIT image
+LOADER IMAGE:   u-boot-spl-ddr.bin start addr: 0x007e1000
+SECOND LOADER IMAGE:    u-boot.itb start addr: 0x40200000 offset: 0x00060000
+Output:         flash.bin
+========= IVT HEADER [HDMI FW] =========
+header.tag:             0x0
+header.length:          0x0
+header.version:         0x0
+entry:                  0x0
+reserved1:              0x0
+dcd_ptr:                0x0
+boot_data_ptr:          0x0
+self:                   0x0
+csf:                    0x0
+reserved2:              0x0
+boot_data.start:        0x0
+boot_data.size:         0x0
+boot_data.plugin:       0x0
+========= IVT HEADER [PLUGIN] =========
+header.tag:             0x0
+header.length:          0x0
+header.version:         0x0
+entry:                  0x0
+reserved1:              0x0
+dcd_ptr:                0x0
+boot_data_ptr:          0x0
+self:                   0x0
+csf:                    0x0
+reserved2:              0x0
+boot_data.start:        0x0
+boot_data.size:         0x0
+boot_data.plugin:       0x0
+========= IVT HEADER [LOADER IMAGE] =========
+header.tag:             0xd1
+header.length:          0x2000
+header.version:         0x41
+entry:                  0x7e1000
+reserved1:              0x57c00
+dcd_ptr:                0x0
+boot_data_ptr:          0x7e0fe0
+self:                   0x7e0fc0
+csf:                    0x80e3c0
+reserved2:              0x0
+boot_data.start:        0x7e0bc0
+boot_data.size:         0x2f860
+boot_data.plugin:       0x0
+========= OFFSET dump =========
+Loader IMAGE:
+ header_image_off       0x0
+ dcd_off                0x0
+ image_off              0x40
+ csf_off                0x2d400
+ spl hab block:         0x7e0fc0 0x0 0x2d400
+
+Second Loader IMAGE:
+ sld_header_off         0x57c00
+ sld_csf_off            0x58c20
+ sld hab block:         0x401fcdc0 0x57c00 0x1020
+DEBUG: Shell function do_compile finished
